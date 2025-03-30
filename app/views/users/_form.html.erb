@@ -1,0 +1,16 @@
+<%= form_with(model: user, local: true) do |form| %>
+    <% if current_user.admin? %>
+    <div class="field">
+      <%= form.check_box :admin %>
+      <%= form.label :admin, "Admin" %>
+    </div>
+  <% end %>
+    <div class="field">
+      <%= form.label :email %>
+      <%= form.email_field :email %>
+    </div>
+  
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
