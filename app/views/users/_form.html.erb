@@ -1,16 +1,41 @@
 <%= form_with(model: user, local: true) do |form| %>
-    <% if current_user.admin? %>
-    <div class="field">
-      <%= form.check_box :admin %>
-      <%= form.label :admin, "Admin" %>
-    </div>
-  <% end %>
-    <div class="field">
-      <%= form.label :email %>
-      <%= form.email_field :email %>
-    </div>
-  
-    <div class="actions">
-      <%= form.submit %>
-    </div>
-  <% end %>
+  <% 
+    rows = []
+    if current_user.admin?
+      rows << { attribute: :admin, label: "Admin", input: form.check_box(:admin) }
+    end
+    rows << { attribute: :email, label: "Email", input: form.email_field(:email) }
+  %>
+
+  <%= render Educhain::Table::Component.new(
+    id: 'user-form-table',
+    data: {
+      class: User,
+      columns: [
+        { header: "Field", data: ->(row) { row[:label] }, col: { 
+          class: 'w-[30%] max-w-[200px] truncate' }},
+        { header: "Value", data: ->(row) { row[:input] }, col: { 
+          class: 'w-[70%] min-w-[300px]' }}
+      ],
+      rows: rows,
+      batch_actions: []
+    }
+  ) %>
+
+  <div class="mt-4">
+    <%= render Educhain::Button::Component.new(
+      tag: :button,
+      type: :submit,
+      text: "Save Changes",
+      scheme: :primary,
+      size: :l,
+    class: "
+      !text-white !bg-black
+      !border-2 !border-red-500
+      !whitespace-nowrap !overflow-visible
+      !py-3 !h-auto min-h-[48px]
+      !px-6  <!-- Horizontal padding -->
+    "
+    ) %>
+  </div>
+<% end %>
