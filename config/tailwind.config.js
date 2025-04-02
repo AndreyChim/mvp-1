@@ -5,7 +5,7 @@ module.exports = {
     './public/*.html',
     './app/helpers/**/*.rb',
     './app/javascript/**/*.js',
-    '/home/and/.rbenv/versions/3.2.7/lib/ruby/gems/3.2.0/bundler/gems/educhain_view_components-*/app/components/**/*.{erb,html}',
+    '../../.rbenv/versions/*/lib/ruby/gems/*/bundler/gems/educhain_view_components-*/app/components/**/*.{erb,html}',
     './app/views/**/*.{erb,haml,html,slim}'
   ],
   theme: {
