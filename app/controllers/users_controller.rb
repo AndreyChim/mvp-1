@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update]
   before_action :authorize_user, only: [:show, :edit, :update]
+  skip_before_action :verify_authenticity_token, only: [:update]
 
   def index
     if current_user.admin?
