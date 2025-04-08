@@ -1,4 +1,8 @@
-<%= user_tab_component(text: "Edit User", current: true) %>
+<%= user_tab_component(
+  text: content_tag(:span, "Edit User", class: "text-2xl"), 
+  current: true,
+  class: "mb-6"
+) %>
 
 <%= render 'form', user: @user %>
 

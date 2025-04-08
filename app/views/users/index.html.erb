@@ -1,4 +1,8 @@
-<%= user_tab_component(text: "All Users", current: true) if current_user.admin? %>
+<%= user_tab_component(
+  text: content_tag(:span, "All Users", class: "text-2xl"), 
+  current: true,
+  class: "mb-6"
+) %>
 
 <%= render Educhain::Table::Component.new(
   id: 'users-table',
