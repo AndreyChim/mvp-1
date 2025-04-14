@@ -1,28 +1,36 @@
-<%= user_tab_component(
-  text: content_tag(:span, "User Details", class: "text-2xl"), 
-  current: true,
-  class: "mb-6"
-) %>
+<%= page do %>
+  <%= page_header do %>
+    <%= page_header_title("User details") %>
+  <% end %>
 
-<div class="user-details">
-  <h2 class="text-2xl font-semibold"><%= @user.email %></h2>
-  <p class="mt-2 text-gray-600">
-    Registered at: <%= l(@user.created_at, format: :long) %>
-  </p>
-</div>
+    <%= page_with_sidebar do %>
+        <div class="mt-4">
+        <%= page_with_sidebar_main do %>
+            <div class="user-details">
+              <h2 class="text-2xl font-semibold"><%= @user.email %></h2>
+              <p class="mt-2 text-gray-600">
+              Registered at: <%= l(@user.created_at, format: :long) %>
+              </p>
+            </div>
+        </div>
+   
 
-<div class="mt-6 flex gap-3">
-  <%= render Educhain::Button::Component.new(
-    tag: :a,
-    text: "Edit",
-    href: edit_user_path(@user),
-    scheme: :secondary
-  ) %>
+        <div class="mt-6 flex gap-3">
+          <%= render Educhain::Button::Component.new(
+          tag: :a,
+          text: "Edit",
+          href: edit_user_path(@user),
+          scheme: :secondary
+          ) %>
 
-  <%= render Educhain::Button::Component.new(
-    tag: :a,
-    text: "Back",
-    href: users_path,
-    scheme: :secondary
-  ) %>
-</div>
+          <%= render Educhain::Button::Component.new(
+          tag: :a,
+          text: "Back",
+          href: users_path,
+          scheme: :secondary
+          ) %>
+        </div>
+     <% end %>
+    <% end %>
+<% end %>
+  

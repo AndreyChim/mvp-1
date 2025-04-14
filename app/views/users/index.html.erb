@@ -19,8 +19,9 @@
       <%= page_header do %>
         <%= page_header_title("Users") %>
       <% end %>
-
+      
       <%= page_with_sidebar do %>
+        <div class="mt-4">
         <%= page_with_sidebar_main do %>
           <%= render Educhain::Table::Component.new(
             id: 'users-table',
@@ -36,6 +37,7 @@
               ]
             }
           ) %>
+           </div>
         <% end %>
 
         <%= page_with_sidebar_aside do %>
