@@ -1,23 +1,29 @@
-<%= user_tab_component(
-  text: content_tag(:span, "Edit User", class: "text-2xl"), 
-  current: true,
-  class: "mb-6"
-) %>
+<%= page do %>
+  <%= page_header do %>
+    <%= page_header_title("Edit User") %>
+  <% end %>
 
-<%= render 'form', user: @user %>
+    <%= page_with_sidebar do %>
+      <div class="mt-4">
+        <%= page_with_sidebar_main do %>
+          <%= render 'form', user: @user %>
 
-<div class="mt-6 flex gap-3">
-  <%= render Educhain::Button::Component.new(
-    tag: :a,
-    text: "Show",
-    href: user_path(@user),
-    scheme: :secondary
-  ) %>
+          <div class="mt-6 flex gap-3">
+            <%= render Educhain::Button::Component.new(
+              tag: :a,
+              text: "Show",
+              href: user_path(@user),
+              scheme: :secondary
+            ) %>
 
-  <%= render Educhain::Button::Component.new(
-    tag: :a,
-    text: "Back",
-    href: users_path,
-    scheme: :secondary
-  ) %>
-</div>
+            <%= render Educhain::Button::Component.new(
+              tag: :a,
+              text: "Back",
+              href: users_path,
+              scheme: :secondary
+            ) %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+<% end %>
