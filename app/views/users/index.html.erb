@@ -1,5 +1,5 @@
 <div class="flex min-h-screen">
-  <div class="w-64 border-r bg-gray-50">
+  <div class="fixed inset-y-0 left-0 w-64 border-r bg-gray-50">
     <%= render Educhain::Navigation::Component.new(
       logo_path: "educhain/view_components/logo/educhain.svg",
       items: [
@@ -14,26 +14,37 @@
     ) %>
   </div>
 
-  <div class="flex-1 p-8">
-    <%= user_tab_component(
-      text: content_tag(:span, "All Users", class: "text-2xl"), 
-      current: true,
-      class: "mb-6"
-    ) %>
+  <div class="flex-1 ml-64">
+    <%= page do %>
+      <%= page_header do %>
+        <%= page_header_title("Users") %>
+      <% end %>
 
-    <%= render Educhain::Table::Component.new(
-      id: 'users-table',
-      data: {
-        rows: @users,
-        class: User,
-        columns: [
-          { header: 'Email', data: :email },
-          {
-            header: 'Actions',
-            data: ->(user) { link_to('Show', user_path(user), class: "text-blue-600 hover:underline") }
-          }
-        ]
-      }
-    ) %>
+      <%= page_with_sidebar do %>
+        <%= page_with_sidebar_main do %>
+          <%= render Educhain::Table::Component.new(
+            id: 'users-table',
+            data: {
+              rows: @users,
+              class: User,
+              columns: [
+                { header: 'Email', data: :email },
+                {
+                  header: 'Actions',
+                  data: ->(user) { link_to('Show', user_path(user), class: "text-blue-600 hover:underline") }
+                }
+              ]
+            }
+          ) %>
+        <% end %>
+
+        <%= page_with_sidebar_aside do %>
+          <div class="p-4 bg-white rounded-lg shadow">
+            <h3 class="font-semibold mb-2">Quick Stats</h3>
+            <p class="text-gray-600"><%= @users.count %> total users</p>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 </div>
