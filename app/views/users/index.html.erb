@@ -1,29 +1,16 @@
 <div class="flex min-h-screen">
   <div class="fixed inset-y-0 left-0 w-64 border-r bg-gray-50">
-    <%= render Educhain::Navigation::Component.new(
-      logo_path: "educhain/view_components/logo/educhain.svg",
-      items: [
-        {
-          key: "user_management",
-          route: users_path,
-          icon: "user-line",
-          position: 30,
-          match_path: ->(path) { path.start_with?(users_path) }
-        }
-      ]
-    ) %>
+    <%= navigtion_component %>
   </div>
-
   <div class="flex-1 ml-64">
     <%= page do %>
       <%= page_header do %>
         <%= page_header_title("Users") %>
       <% end %>
-      
       <%= page_with_sidebar do %>
         <div class="mt-4">
-        <%= page_with_sidebar_main do %>
-          <%= render Educhain::Table::Component.new(
+          <%= page_with_sidebar_main do %>
+            <%= render Educhain::Table::Component.new(
             id: 'users-table',
             data: {
               rows: @users,
@@ -37,9 +24,8 @@
               ]
             }
           ) %>
-           </div>
+          </div>
         <% end %>
-
         <%= page_with_sidebar_aside do %>
           <div class="p-4 bg-white rounded-lg shadow">
             <h3 class="font-semibold mb-2">Quick Stats</h3>

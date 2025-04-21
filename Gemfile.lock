@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:EduchainTeam/educhain_view_components.git
-  revision: 03e6e92efe36ce7165673f9b297ee51d7fef21e1
+  revision: 66cb51cb7bac879b5f45cb1234eee221de7f131a
   branch: develop
   specs:
     educhain_view_components (0.1.0)
@@ -108,7 +108,7 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.0)
+    connection_pool (2.5.1)
     crass (1.0.6)
     date (3.4.1)
     debug (1.10.0)
@@ -214,7 +214,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.12)
+    rack (3.1.13)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
