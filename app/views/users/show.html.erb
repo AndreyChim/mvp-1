@@ -5,7 +5,19 @@
   <div class="flex-1 ml-64">
     <%= page do %>
       <%= page_header do %>
-        <%= page_header_title("User details") %>
+        <%= page_header_actions do %>
+          <%= link_to users_path, 
+              class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors inline-flex items-center",
+              aria: { label: "Back" } do %>
+            <%= render Educhain::Icon::Component.new(
+          name: "arrow-left-line",
+          class: "w-5 h-5"
+        ) %>
+          <% end %>
+        <% end %>
+        <div class="ml-4">
+          <%= page_header_title("User details") %>
+        </div>
       <% end %>
       <%= page_with_sidebar do %>
         <div class="mt-4">
@@ -16,23 +28,18 @@
                 Registered at: <%= l(@user.created_at, format: :long) %>
               </p>
             </div>
-          </div>
+          <% end %>
           <div class="mt-6 flex gap-3">
             <%= render Educhain::Button::Component.new(
-          tag: :a,
-          text: "Edit",
-          href: edit_user_path(@user),
-          scheme: :secondary
-          ) %>
-            <%= render Educhain::Button::Component.new(
-          tag: :a,
-          text: "Back",
-          href: users_path,
-          scheme: :secondary
-          ) %>
-          </div>
-        <% end %>
-      <% end %>
+              tag: :a,
+              size: :l,
+              text: "Edit",
+              href: edit_user_path(@user),
+              scheme: :secondary
+            ) %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
