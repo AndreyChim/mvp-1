@@ -1,10 +1,10 @@
 module NavigationHelper
-    def navigtion_component
+    def navigation_component
          render Educhain::Navigation::Component.new(
             logo_path: "educhain/view_components/logo/educhain.svg",
             items: [
               {
-                key: "user_management",
+                key: "Users",
                 route: users_path,
                 icon: "user-line",
                 position: 30,
