@@ -1,21 +1,19 @@
 <div class="fixed inset-y-0 left-0 w-64 border-r bg-gray-50 flex flex-col">
-<div class="flex-1 overflow-y-auto">
+  
+  <div class="flex-1 overflow-y-auto">
     <%= navigation_component %>
   </div>
+
   <div class="p-4">
-      <div class="text-sm font-medium text-gray-700">
-        <%= render Educhain::Navigation::Account::Component.new(
-      user_label: current_user.email,
-      account_path: "#",
-      logout_path: "#",
-      logout_method: :delete,
-    ) %>
-      </div>
+    <div class="text-sm font-medium text-gray-700">
+      <%= navigation_account_component %>
     </div>
   </div>
+</div>
   
   <div class="flex-1 ml-64">
     <%= page do %>
+
       <%= page_header do %>
         <%= page_header_actions do %>
           <%= link_to users_path, 
@@ -25,12 +23,14 @@
           name: "arrow-left-line",
           class: "w-5 h-5"
         ) %>
-          <% end %>
         <% end %>
+      <% end %>
+
         <div class="ml-4">
           <%= page_header_title("User details") %>
         </div>
       <% end %>
+      
       <%= page_with_sidebar do %>
         <div class="mt-4">
           <%= page_with_sidebar_main do %>
