@@ -13,7 +13,6 @@
   
   <div class="flex-1 ml-64">
     <%= page do %>
-
       <%= page_header do %>
         <%= page_header_actions do %>
           <%= link_to users_path, 
@@ -25,11 +24,12 @@
         ) %>
           <% end %>
         <% end %>
+    <% end %>
 
-        <div class="ml-4">
-          <%= page_header_title("Edit User") %>
-        </div>
-      <% end %>
+      <div class="px-2 py-4 ml-4">
+        <%= page_header_title("Edit User") %>
+      </div>
+      
       
       <%= page_with_sidebar do %>
         <div class="mt-4">
