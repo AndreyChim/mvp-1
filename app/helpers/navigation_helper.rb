@@ -2,6 +2,7 @@ module NavigationHelper
     def navigation_component
          render Educhain::Navigation::Component.new(
             logo_path: "educhain/view_components/logo/educhain.svg",
+            user_label: current_user&.email,
             items: [
               {
                 key: "Users",
