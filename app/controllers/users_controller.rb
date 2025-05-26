@@ -6,13 +6,19 @@ class UsersController < ApplicationController
 
   def index
     if current_user.admin?
-      @users = User.all
+      # @users = User.all
+      @users = policy_scope(User)
     else
       redirect_to user_path(current_user), alert: "You are not authorized to view this page."
     end
   end
 
+  def edit
+    authorize @user
+  end
+
   def update
+    authorize @user
     if @user.update(user_params)
       redirect_to @user, notice: 'User was successfully updated.'
     else

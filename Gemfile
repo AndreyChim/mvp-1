@@ -69,3 +69,4 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 3.3"
+gem 'pundit'

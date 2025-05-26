@@ -48,7 +48,9 @@
               </p>
             </div>
           <% end %>
+            
           <div class="mt-6 flex gap-3">
+            <% if policy(@user).edit? %>
             <%= render Educhain::Button::Component.new(
               tag: :a,
               size: :l,
@@ -56,6 +58,7 @@
               href: edit_user_path(@user),
               scheme: :secondary
             ) %>
+            <% end %>
             <% end %>
           </div>
         </div>
