@@ -1,0 +1,64 @@
+<div class="fixed inset-y-0 left-0 w-64 border-r bg-gray-50 flex flex-col">
+  
+  <div class="flex-1 overflow-y-auto">
+    <%= navigation_component %>
+  </div>
+
+  <div class="p-4">
+    <div class="text-sm font-medium text-gray-700">
+      <%= navigation_account_component %>
+    </div>
+  </div>
+</div>
+  
+  <div class="flex-1 ml-64">
+    <%= page do %>
+      <%= page_header do %>
+        <%= page_header_actions do %>
+          <%= link_to users_path, 
+              class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors inline-flex items-center",
+              aria: { label: "Back" } do %>
+            <%= render Educhain::Icon::Component.new(
+          name: "arrow-left-line",
+          class: "w-5 h-5"
+        ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <div class="h-4"></div> 
+   
+        <div class="w-full bg-indigo-50 border-b-2 border-indigo-200 shadow-sm">
+          <%= page_header do %>
+            <div class="text-2xl font-bold text-indigo-800">
+              <div class="max-w-full px-4 py-2">
+                <%= page_header_title("Users details") %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+          
+      <%= page_with_sidebar do %>
+        <div class="mt-4">
+          <%= page_with_sidebar_main do %>
+            <div class="user-details">
+              <h2 class="text-2xl font-semibold"><%= @user.email %></h2>
+              <p class="mt-2 text-gray-600">
+                Registered at: <%= l(@user.created_at, format: :long) %>
+              </p>
+            </div>
+          <% end %>
+          <div class="mt-6 flex gap-3">
+            <%= render Educhain::Button::Component.new(
+              tag: :a,
+              size: :l,
+              text: "Edit",
+              href: edit_user_path(@user),
+              scheme: :secondary
+            ) %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>     
+  </div>

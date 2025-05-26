@@ -1,0 +1,50 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-6 text-center">Log in</h2>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+    <div class="space-y-2">
+      <div class="field">
+      <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+      <%= render component('forms/input').new(
+        tag: :input,
+        type: :email,
+        name: "#{f.object_name}[email]",
+        id: "#{f.object_name}_email",
+        value: f.object.email,
+        autofocus: true,
+        autocomplete: "email",
+        error: resource.errors[:email].first,
+        size: :m
+      ) %>
+      </div>
+
+      <div class="field">
+      <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
+      <%= render component('forms/input').new(  
+        tag: :input,
+        type: :password,
+        name: "#{f.object_name}[password]",
+        id: "#{f.object_name}_password",
+        autocomplete: "current-password",
+        error: resource.errors[:password].first,
+        size: :m
+      ) %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center">
+          <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+          <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-700" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Log in", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+  <% end %>
+
+  <div class="mt-4 text-sm text-center">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
