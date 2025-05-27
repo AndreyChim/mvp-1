@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:EduchainTeam/educhain_view_components.git
+  remote: https://github.com/EduchainTeam/educhain_view_components.git
   revision: 57686ff70712784676afbef3da8d12c4961a699b
   branch: develop
   specs:

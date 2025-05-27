@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
   before_action :authorize_user, only: [:show, :edit, :update]
   skip_before_action :verify_authenticity_token, only: [:update]
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
 
   def index
     if current_user.admin?
@@ -14,6 +16,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
     authorize @user
   end
 

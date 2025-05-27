@@ -1,6 +1,6 @@
 class UserPolicy < ApplicationPolicy
   def update?
-    user == record
+    user == record || user.admin?
   end
 
   def edit?

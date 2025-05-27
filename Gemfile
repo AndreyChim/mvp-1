@@ -41,7 +41,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'educhain_view_components', 
-  git: 'git@github.com:EduchainTeam/educhain_view_components.git', 
+  git: 'https://github.com/EduchainTeam/educhain_view_components.git', 
   branch: 'develop'
 
 gem "devise"
