@@ -1,5 +1,6 @@
 class UserPolicy < ApplicationPolicy
   def update?
+    return false if user.nil? 
     user == record || user.admin?
   end
 
@@ -7,7 +8,9 @@ class UserPolicy < ApplicationPolicy
     update?
   end
 
-  # Add more actions as needed (show, destroy, etc)
+  def index?
+    user.present? && user.admin?
+  end
 
   class Scope < Scope
     def resolve

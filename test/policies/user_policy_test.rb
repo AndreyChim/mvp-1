@@ -33,13 +33,11 @@ class UserPolicyTest < ActiveSupport::TestCase
 
   private
 
-  # Helper method to assert permission is granted
   def assert_permit(user, record, action)
     assert UserPolicy.new(user, record).public_send(action),
       "User #{user&.email} should be permitted to #{action} #{record}, but isn't"
   end
 
-  # Helper method to assert permission is denied
   def refute_permit(user, record, action)
     refute UserPolicy.new(user, record).public_send(action),
       "User #{user&.email} should NOT be permitted to #{action} #{record}, but is"

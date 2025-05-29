@@ -12,7 +12,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should redirect unauthorized user from edit" do
     sign_in @other_user
     get edit_user_path(@user)
-    assert_redirected_to root_path
+    assert_redirected_to users_path
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
 

@@ -11,6 +11,7 @@ class UsersController < ApplicationController
       # @users = User.all
       @users = policy_scope(User)
     else
+      skip_policy_scope
       redirect_to user_path(current_user), alert: "You are not authorized to view this page."
     end
   end
