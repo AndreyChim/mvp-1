@@ -3,16 +3,26 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
   before_action :authorize_user, only: [:show, :edit, :update]
   skip_before_action :verify_authenticity_token, only: [:update]
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
 
   def index
     if current_user.admin?
-      @users = User.all
+      # @users = User.all
+      @users = policy_scope(User)
     else
+      skip_policy_scope
       redirect_to user_path(current_user), alert: "You are not authorized to view this page."
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+    authorize @user
+  end
+
   def update
+    authorize @user
     if @user.update(user_params)
       redirect_to @user, notice: 'User was successfully updated.'
     else
