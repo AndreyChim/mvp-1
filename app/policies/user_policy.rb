@@ -12,6 +12,10 @@ class UserPolicy < ApplicationPolicy
     user.present? && user.admin?
   end
 
+  def show?
+    user.admin? || record == user
+  end
+
   class Scope < Scope
     def resolve
       if user.admin?
@@ -22,3 +26,4 @@ class UserPolicy < ApplicationPolicy
     end
   end
 end
+
