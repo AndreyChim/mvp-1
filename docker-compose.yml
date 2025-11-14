@@ -4,28 +4,38 @@ services:
   web:
     build: .
     volumes:
-      - .:/rails:cached  # Changed to match Dockerfile WORKDIR
+      - .:/rails:cached
+      - bundle_cache:/usr/local/bundle
     ports:
       - "3000:3000"
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/app_development
+      DATABASE_URL: postgresql://myuser:mypassword@db:5432/myapp_development
       RAILS_ENV: development
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy-secret} # For development
-    
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy-secret}
+      BUNDLE_PATH: /usr/local/bundle
     env_file: 
       - .env
+    command: bash -c "bundle check || bundle install && bundle exec rails db:create db:migrate && bundle exec rails server -b 0.0.0.0"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   db:
     image: postgres:15-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: app_development  # Explicit database name
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: myapp_development
+    ports:
+      - "5432:5432"
 
 volumes:
   postgres_data:
+  bundle_cache:
