@@ -74,4 +74,4 @@ USER rails:rails
 
 # Start server
 EXPOSE 3000
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["sh", "-c", "echo 'Starting Rails application...' && bundle exec rails server -b 0.0.0.0"]
