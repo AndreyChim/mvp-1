@@ -1,14 +1,16 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
-# Enable jemalloc for reduced memory usage and latency.
-if [ -z "${LD_PRELOAD+x}" ]; then
-    LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
-    export LD_PRELOAD
-fi
+echo "Waiting for PostgreSQL to be ready..."
+while ! PGPASSWORD=$DATABASE_PASSWORD psql -h "$DATABASE_HOST" -U "$DATABASE_USERNAME" -d "$POSTGRES_DB" -c '\q' 2>/dev/null; do
+  echo "PostgreSQL is unavailable - sleeping"
+  sleep 1
+done
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
-fi
+echo "PostgreSQL is up - continuing with database setup"
 
-exec "${@}"
+echo "Running database migrations..."
+bundle exec rails db:prepare
+
+echo "Starting Rails server..."
+exec bundle exec rails server -b 0.0.0.0

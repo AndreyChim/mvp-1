@@ -5,7 +5,7 @@ servers:
   web:
     hosts:
       - localhost
-    cmd: bin/wait-for-db bundle exec rails server -b 0.0.0.0
+    cmd: bin/docker-entrypoint
 
 accessories:
   db:
@@ -41,7 +41,7 @@ env:
   clear:
     SOLID_QUEUE_IN_PUMA: true
     RAILS_LOG_LEVEL: info
-    REDIS_URL: redis://host.docker.internal:6379/1
+    REDIS_URL: redis://redis:6379/1 
     DATABASE_HOST: db
     DATABASE_USERNAME: postgres
     DATABASE_PASSWORD: postgres
