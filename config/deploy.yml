@@ -5,7 +5,7 @@ servers:
   web:
     hosts:
       - localhost
-    cmd: bundle exec rails server -b 0.0.0.0
+    cmd: bin/wait-for-db bundle exec rails server -b 0.0.0.0
 
 accessories:
   db:
