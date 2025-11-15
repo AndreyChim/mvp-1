@@ -6,6 +6,10 @@ servers:
     hosts:
       - localhost
     cmd: bundle exec rails server -b 0.0.0.0
+    healthcheck:
+      path: /up
+      port: 3000
+      max_attempts: 5
 
 accessories:
   db:
