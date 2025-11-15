@@ -98,6 +98,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
     fi
 # Final stage for app image
 FROM base
+COPY --from=build /usr/local/bundle /usr/local/bundle
 
 # Copy built artifacts from build stage
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
