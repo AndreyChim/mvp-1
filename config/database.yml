@@ -22,9 +22,20 @@ test:
   port: 5432
 
 production:
-  <<: *default
-  database: mvp-1_production
-  username: postgres
-  password: postgres
-  host: db
-  port: 5432
+  primary:
+    <<: *default
+    adapter: postgresql
+    database: mvp-1_production
+    username: postgres
+    password: postgres
+    host: db
+    port: 5432
+
+  queue:
+    <<: *default
+    adapter: postgresql
+    database: myapp_queue  # имя вашей БД для queue
+    username: postgres
+    password: postgres
+    host: db
+    port: 5432
