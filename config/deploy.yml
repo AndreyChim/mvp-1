@@ -5,7 +5,7 @@ servers:
   web:
     hosts:
       - localhost
-    cmd: bin/rails db:prepare && bin/rails server -b 0.0.0.0
+    cmd: bundle exec rails db:prepare && bin/rails server -b 0.0.0.0
 
 accessories:
   db:
