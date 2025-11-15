@@ -5,6 +5,27 @@ servers:
   web:
     hosts:
       - localhost
+    cmd: bin/rails db:prepare && bin/rails server -b 0.0.0.0
+
+accessories:
+  db:
+    image: postgres:16
+    host: localhost
+    port: 5432
+    env:
+      clear:
+        POSTGRES_DB: mvp_1_production
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+    directories:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    host: localhost
+    port: 6379
+    directories:
+      - redis_data:/data
 
 proxy:
   ssl: false
