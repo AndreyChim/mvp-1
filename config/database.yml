@@ -5,9 +5,8 @@ default: &default
   timeout: 5000
 
 development:
-  adapter: postgresql
-  encoding: unicode
-  database: myapp_development
+  <<: *default
+  database: mvp-1_development
   pool: 5
   username: postgres
   password: postgres
@@ -16,7 +15,7 @@ development:
 
 test:
   <<: *default
-  database: myapp_test
+  database: mvp-1_test
   username: postgres
   password: postgres
   host: db
@@ -24,7 +23,8 @@ test:
 
 production:
   <<: *default
-  database: myapp_production
+  database: mvp-1_production
   username: postgres
-  password: <%= ENV["DB_PASSWORD"] %>
-  host: <%= ENV["DB_HOST"] %>
+  password: postgres
+  host: db
+  port: 5432

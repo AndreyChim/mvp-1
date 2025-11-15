@@ -69,3 +69,6 @@ end
 
 gem "tailwindcss-rails", "~> 3.3"
 gem 'pundit'
+gem 'redis'
+gem 'actioncable'
+
