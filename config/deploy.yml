@@ -12,17 +12,6 @@ servers:
     hosts:
       - localhost
     cmd: bundle exec rails server -b 0.0.0.0
-    healthcheck:
-      path: /up
-      port: 3000
-      max_attempts: 10
-      interval: 5s
-      timeout: 10s
-      max_ready_wait: 60s
-
-hooks:
-  pre-deploy:
-    - "docker exec mvp-1-db-<hash> createdb -U postgres mvp_1_production || true"
 
 accessories:
   db:
