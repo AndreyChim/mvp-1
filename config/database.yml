@@ -34,7 +34,16 @@ production:
   queue:
     <<: *default
     adapter: postgresql
-    database: myapp_queue  # имя вашей БД для queue
+    database: myapp_queue
+    username: postgres
+    password: postgres
+    host: db
+    port: 5432
+  
+  cache:
+    <<: *default
+    adapter: postgresql
+    database: mvp-1_production_cache
     username: postgres
     password: postgres
     host: db
