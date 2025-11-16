@@ -1,3 +1,11 @@
+healthcheck:
+  path: /up
+  port: 3000
+  max_attempts: 10
+  interval: 5s
+  timeout: 10s
+  max_ready_wait: 60s  # Increase this from default 30s
+  
 registry:
   username: 
     - KAMAL_REGISTRY_USERNAME
