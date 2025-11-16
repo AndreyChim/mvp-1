@@ -1,11 +1,3 @@
-healthcheck:
-  path: /up
-  port: 3000
-  max_attempts: 10
-  interval: 5s
-  timeout: 10s
-  max_ready_wait: 60s  # Increase this from default 30s
-  
 registry:
   username: 
     - KAMAL_REGISTRY_USERNAME
@@ -20,12 +12,22 @@ servers:
     hosts:
       - localhost
     cmd: bundle exec rails server -b 0.0.0.0
+    healthcheck:
+      path: /up
+      port: 3000
+      max_attempts: 10
+      interval: 5s
+      timeout: 10s
+      max_ready_wait: 60s
+
+hooks:
+  pre-deploy:
+    - "docker exec mvp-1-db-<hash> createdb -U postgres mvp_1_production || true"
 
 accessories:
   db:
     image: postgres:16
     host: localhost
-    
     env:
       clear:
         POSTGRES_DB: mvp_1_production

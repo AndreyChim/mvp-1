@@ -25,7 +25,7 @@ production:
   primary:
     <<: *default
     adapter: postgresql
-    database: mvp-1_production
+    database: mvp_1_production
     username: postgres
     password: postgres
     host: db
