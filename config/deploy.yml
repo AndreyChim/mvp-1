@@ -1,5 +1,6 @@
 registry:
-  username: and
+  username: 
+    - KAMAL_REGISTRY_USERNAME
   password:
     - KAMAL_REGISTRY_PASSWORD
 
