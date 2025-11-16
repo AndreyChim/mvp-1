@@ -1,3 +1,8 @@
+registry:
+  username: and
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
 service: mvp-1
 image: chimitcyrenov/mvp-1_web
 
