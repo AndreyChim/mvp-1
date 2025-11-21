@@ -1,6 +1,5 @@
 registry:
-  username: 
-    - KAMAL_REGISTRY_USERNAME
+  username: chimitcyrenov
   password:
     - KAMAL_REGISTRY_PASSWORD
 
@@ -10,13 +9,14 @@ image: chimitcyrenov/mvp-1_web
 servers:
   web:
     hosts:
-      - localhost
-    cmd: bundle exec rails server -b 0.0.0.0
-
+      - 172.18.242.201 
+    cmd: bundle exec rails server -b 0.0.0.0 -p 80 
+    
 accessories:
   db:
     image: postgres:16
-    host: localhost
+    host: 172.18.242.201
+    port: 5432
     env:
       clear:
         POSTGRES_DB: mvp_1_production
@@ -27,34 +27,27 @@ accessories:
 
   redis:
     image: redis:7-alpine
-    host: localhost
+    host: 172.18.242.201
+    port: 6379
     directories:
       - redis_data:/data
-
-proxy:
-  ssl: false
-  host: localhost
 
 env:
   secret:
     - RAILS_MASTER_KEY
   clear:
-    SOLID_QUEUE_IN_PUMA: true
     RAILS_LOG_LEVEL: info
-    REDIS_URL: redis://redis:6379/1 
-    DATABASE_HOST: db
-    DATABASE_USERNAME: postgres
-    DATABASE_PASSWORD: postgres
-    DATABASE_PORT: 5432
+    REDIS_URL: redis://172.18.242.201:6379/1
+    DATABASE_URL: postgresql://postgres:postgres@172.18.242.201:5432/mvp_1_production
 
-volumes:
-  - "mvp-1_storage:/rails/storage"
+ssh:
+  user: ubuntu
+  port: 22
 
 builder:
   arch: amd64
-  args:
-    RAILS_MASTER_KEY: <%= ENV['RAILS_MASTER_KEY'] %>
 
-ssh:
-  user: and
-  port: 22
+proxy:
+  healthcheck:
+    interval: 15
+    timeout: 120

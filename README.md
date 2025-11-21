@@ -1,8 +1,9 @@
+sign_in:
 email: 'admin@example.com',
 password: 'password',
 
 run by docker:
+./start-local.sh
 
-docker-compose down -v
-docker-compose build --no-cache
-docker-compose up
+run by deploy:
+./deploy.sh

@@ -75,3 +75,5 @@ USER rails:rails
 # Start server
 EXPOSE 3000
 CMD ["bin/docker-entrypoint"]
+
+CMD bundle exec rails db:create db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000
