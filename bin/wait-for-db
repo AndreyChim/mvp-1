@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+until PGPASSWORD=postgres psql -h localhost -U postgres -d mvp_1_production -c '\q'; do
+  >&2 echo "PostgreSQL is unavailable - sleeping"
+  sleep 1
+done
+
+>&2 echo "PostgreSQL is up - executing command"
+exec "$@"

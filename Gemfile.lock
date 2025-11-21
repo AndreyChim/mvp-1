@@ -87,11 +87,11 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
-    base64 (0.2.0)
+    base64 (0.3.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
-    benchmark (0.4.0)
-    bigdecimal (3.1.9)
+    benchmark (0.4.1)
+    bigdecimal (3.2.2)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -198,6 +198,7 @@ GEM
     parser (3.3.7.3)
       ast (~> 2.4.1)
       racc
+    pg (1.5.9)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -217,7 +218,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.15)
+    rack (3.1.16)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -255,10 +256,14 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    rake (13.2.1)
+    rake (13.3.0)
     rdoc (6.14.0)
       erb
       psych (>= 4.0.0)
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.26.1)
+      connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
@@ -319,7 +324,6 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sqlite3 (2.6.0-x86_64-linux-gnu)
     sshkit (1.24.0)
       base64
       logger
@@ -359,7 +363,7 @@ GEM
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
     websocket (1.2.11)
-    websocket-driver (0.7.7)
+    websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -371,6 +375,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  actioncable
   bootsnap
   brakeman
   capybara
@@ -380,16 +385,17 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  pg (~> 1.5)
   propshaft
   puma (>= 5.0)
   pundit
   rails (~> 8.0.1)
+  redis
   rubocop-rails-omakase
   selenium-webdriver
   solid_cable
   solid_cache
   solid_queue
-  sqlite3 (>= 2.1)
   stimulus-rails
   tailwindcss-rails (~> 3.3)
   thruster

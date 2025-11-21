@@ -1,23 +1,25 @@
 # syntax=docker/dockerfile:1
-# check=error=true
-
-# This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t mvp_1 .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name mvp_1 mvp_1
-
-# For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
-
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
 ARG RUBY_VERSION=3.2.7
-FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
-# Rails app lives here
+# Single stage build to avoid issues
+FROM docker.io/library/ruby:$RUBY_VERSION-slim
+
 WORKDIR /rails
 
-# Install base packages
+# Install all dependencies (both build and runtime)
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get install --no-install-recommends -y \
+        curl \
+        libjemalloc2 \
+        libvips \
+        libyaml-dev \
+        postgresql-client \
+        libpq-dev \
+        nodejs \
+        build-essential \
+        git \
+        sqlite3 \
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -25,48 +27,53 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
 
-# Throw-away build stage to reduce size of final image
-FROM base AS build
+# Install specific gem from source
+ARG COMPONENTS_BRANCH="develop"
 
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+RUN git clone -b ${COMPONENTS_BRANCH} --depth 1 \
+    https://github.com/EduchainTeam/educhain_view_components.git \
+    /tmp/educhain_view_components && \
+    cd /tmp/educhain_view_components && \
+    gem build educhain_view_components.gemspec && \
+    gem install educhain_view_components-*.gem && \
+    rm -rf /tmp/educhain_view_components
 
-# Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+
+RUN bundle config set --local frozen 'true' && \
+    bundle config set --local deployment 'true' && \
+    bundle install --jobs=4 --retry=3 && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache
+
+# Verify gem installation
+RUN bundle list | grep educhain_view_components && \
+    gem contents educhain_view_components | head -5 && \
+    echo "Gem verified"
 
 # Copy application code
 COPY . .
 
+# Generate binstubs and make executable
+RUN bundle binstubs railties --path ./bin && \
+    chmod +x bin/*
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Precompile assets
+RUN SECRET_KEY_BASE=dummy RAILS_MASTER_KEY=${RAILS_MASTER_KEY} ./bin/rails assets:precompile
 
+# Set PATH to include binstubs and bundle
+ENV PATH="/rails/bin:/usr/local/bundle/bin:${PATH}"
 
-
-
-# Final stage for app image
-FROM base
-
-# Copy built artifacts: gems, application
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
-
-# Run and own only the runtime files as a non-root user for security
+# Run as non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
-USER 1000:1000
+USER rails:rails
 
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+# Start server
+EXPOSE 3000
+CMD ["bin/docker-entrypoint"]
 
-# Start server via Thruster by default, this can be overwritten at runtime
-EXPOSE 80
-CMD ["./bin/thrust", "./bin/rails", "server"]
+CMD bundle exec rails db:create db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000
